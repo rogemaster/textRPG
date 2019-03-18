@@ -94,7 +94,7 @@ public class View extends JFrame{
 		inputDisplay.setSize(700, 80);
 		inputDisplay.setLocation(7, 475);
 		inputDisplay.addKeyListener(new KeyEvent(this));
-		inputDisplay.requestFocus();
+		inputDisplay.requestFocus(true);
 		
 		
 		rePlay.setText("RE");

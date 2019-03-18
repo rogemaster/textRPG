@@ -49,6 +49,9 @@ public class BtnEvent implements ActionListener {
 				}else if(level == 4) {
 					front.monsterKing.setText("처치 성공!!!");
 					front.explainDisplay.setText(front.ment.END);
+					front.inputDisplay.setEnabled(false);
+					front.next.setEnabled(false);
+					front.rePlay.setEnabled(true);
 				}
 				
 				front.inputDisplay.setEnabled(true);

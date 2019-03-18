@@ -8,7 +8,7 @@ public class Hero extends Character {
 	private int HS_heroAttack;
 	
 	public Hero(String name, int level) {
-		super(name, level, (int)(50 * level), (int)(70 * level), 15, 9);
+		super(name, level, (int)(50 * level), (int)(3 * level), 15, 9);
 		// TODO Auto-generated constructor stub
 		
 		HA_heroAttack = super.getAttack();

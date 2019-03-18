@@ -160,14 +160,14 @@ public class Driver {
 		if(key == 65) {
 			result = hero.HA_heroAttack(mon);
 			if(result == 1) {
-				attack_msg = hero.getHA_heroAttack() + " 만큼 공격 성공" + "\n";
 				monsterState(mon.getLEVEL());
+				attack_msg = hero.getHA_heroAttack() + " 만큼 공격 성공" + "\n";
 				
 			}else if(result == 2) {
+				monsterState(mon.getLEVEL());
 				attack_msg = mon.getNAME() + " 처치 성공" + "\n";
 				gs.front.inputDisplay.setEnabled(false);
 				gs.front.next.setEnabled(true);
-				monsterState(mon.getLEVEL());
 				
 			}else {
 				attack_msg = "공격 실패" + "\n";
@@ -176,15 +176,15 @@ public class Driver {
 		}else if(key == 83) {
 			result = hero.HS_heroAttack(mon);
 			if(result == 1) {
-				attack_msg = hero.getHS_heroAttack() + " 만큼 공격 성공" + "\n";
 				monsterState(mon.getLEVEL());
+				attack_msg = hero.getHS_heroAttack() + " 만큼 공격 성공" + "\n";
 				
 			}else if(result == 2) {
+				monsterState(mon.getLEVEL());
 				attack_msg = mon.getNAME() + " 처치 성공" + "\n";
 				gs.front.inputDisplay.setEnabled(false);
 				gs.front.next.setEnabled(true);
 				gs.front.explainDisplay.setText(gs.front.ment.MONDIE);
-				monsterState(mon.getLEVEL());
 				
 			}else {
 				attack_msg = "공격 실패" + "\n";

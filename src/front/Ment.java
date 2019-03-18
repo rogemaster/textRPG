@@ -15,14 +15,14 @@ public class Ment {
 									+ "근거리 공격키 ▶▷ S\n";
 	
 	public static String HERODIE = "몬스터에게 사망하셨습니다.\n"
-									+ "재시작을 원하시면 RE 버튼을\n "
+									+ "재시작을 원하시면【RE】버튼을\n "
 									+ "클릭해 주세요.";
 	
 	public static String MONDIE = "몬스터를 처치 하셨습니다.\n"
-									+ "다음 단계를 원하시면 NE 버튼을\n"
+									+ "다음 단계를 원하시면【NE】버튼을\n"
 									+ "클릭해 주세요.\n";
 	
 	public static String END = "모든 몬스터를 처치 하셨습니다.\n"
 										+ "마을을 지켜냈습니다.\n"
-										+ "당신은 이 마을의 왕 입니다.\n";
+										+ "당신은 이 마을의 왕이 되었습니다.\n";
 }
