@@ -3,7 +3,6 @@ package handler;
 import java.awt.event.KeyListener;
 
 import front.View;
-import main.GameStart;
 
 public class KeyEvent implements KeyListener{
 	View front;
@@ -23,22 +22,35 @@ public class KeyEvent implements KeyListener{
 			name = front.inputDisplay.getText();
 			front.gs.back.init(name);
 			front.MODE = 1;
+			front.inputDisplay.setText("");
+			front.explainDisplay.setText(front.ment.EXPL);
 		}
 		
 		System.out.println("MODE = " + front.MODE);
 		
 		// 게임 진행
 		if(front.MODE == 1 && (key == 37 || key == 38 || key == 39 || key == 40)) {
-			front.gs.back.moveHistory(key);
+			front.gs.back.heroMove(key);
+			front.gs.back.monMove();
 			front.gs.back.showDisplay();
+			front.gs.back.distance();
+			front.gs.back.monAttackHistory();
 		}
 		
+		if(front.MODE == 1 && (key == 83 || key == 65)) {
+			front.gs.back.monMove();
+			front.gs.back.showDisplay();
+			front.gs.back.distance();
+			front.gs.back.heroAttackHistory(key);
+			front.gs.back.monAttackHistory();
+			front.inputDisplay.setText("");
+		}
 	}
 
 	@Override
 	public void keyReleased(java.awt.event.KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

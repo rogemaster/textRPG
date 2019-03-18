@@ -5,11 +5,11 @@ public class Monster extends Character {
 	private int MS_attackDistance = 2;
 	
 	public Monster(String name, int level) {
-		super(name, level, 70, 4, 15, 2);
+		super(name, level, (int)(70 * level), (int)(4 * level), 15, 2);
 		// TODO Auto-generated constructor stub
 	}
 	
-	//몬스터 공격
+	//몬스터 공격 / 공격성공 1 / 히어로사망 2 / 공격실패 0
 	public int MS_attack(Character real) {
 		int result = 0;
 		int dist = distance(this, real);
@@ -20,6 +20,9 @@ public class Monster extends Character {
 			
 			if(hp <= 0) {
 				hp = 0;
+				real.setHP(hp);
+				result = 2;
+				return result;
 			}
 			real.setHP(hp);
 			result = 1;

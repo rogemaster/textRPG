@@ -10,14 +10,11 @@ public class GameStart {
 	public GameStart() {
 		front = new View(this);
 		back = new Driver(this);
-	}
-	
-	public void start() {
 		front.setVisible(true);
 	}
 	
 	public static void main(String[] args) {
-		new GameStart().start();
+		GameStart gameStart = new GameStart();
 	}
 	
 }

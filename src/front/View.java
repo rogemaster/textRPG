@@ -33,11 +33,10 @@ public class View extends JFrame{
 	public JButton next = new JButton();
 	public JScrollPane scrollPane = new JScrollPane(battlehistoryDisplay);
 	public int MODE = 0;
-	
+	public Ment ment = new Ment();
 	
 	
 	public View(GameStart gameStart) {
-		Ment ment = new Ment();
 		this.gs = gameStart;
 		init();
 		
@@ -58,6 +57,7 @@ public class View extends JFrame{
 		explainDisplay.setBorder(new TitledBorder("game explain"));
 		explainDisplay.setSize(220, 200);
 		explainDisplay.setLocation(7, 270);
+		explainDisplay.setText(ment.MENT1);
 		
 		distanceDisplay.setBorder(new TitledBorder("distance"));
 		distanceDisplay.setSize(220, 120);
@@ -94,6 +94,7 @@ public class View extends JFrame{
 		inputDisplay.setSize(700, 80);
 		inputDisplay.setLocation(7, 475);
 		inputDisplay.addKeyListener(new KeyEvent(this));
+		inputDisplay.requestFocus();
 		
 		
 		rePlay.setText("RE");
@@ -102,7 +103,7 @@ public class View extends JFrame{
 		rePlay.setEnabled(false);
 		rePlay.addActionListener(new BtnEvent(this));
 			
-		next.setText("Next");
+		next.setText("NE");
 		next.setSize(59, 35);
 		next.setLocation(713, 520);
 		next.setEnabled(false);
@@ -126,7 +127,6 @@ public class View extends JFrame{
 		mainPane.add(mapDisplay);
 		
 		getContentPane().add(mainPane, null);
-		inputDisplay.requestFocus();
 		
 	}
 	

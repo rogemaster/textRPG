@@ -2,20 +2,20 @@ package back;
 
 public class Hero extends Character {
 
-	private int HA_heroDistance = 6;	//원
+	private int HA_heroDistance = 5;	//원
 	private int HS_heroDistance = 3;	//근
 	private int HA_heroAttack;
 	private int HS_heroAttack;
 	
-	public Hero(String name) {
-		super(name, 1, 50, 3, 15, 9);
+	public Hero(String name, int level) {
+		super(name, level, (int)(50 * level), (int)(70 * level), 15, 9);
 		// TODO Auto-generated constructor stub
 		
 		HA_heroAttack = super.getAttack();
 		HS_heroAttack = super.getAttack() * 2;
 	}
 	
-	//히어로 원거리 공격
+	//히어로 원거리 공격 / 공격성공 1 / 몬스터사망 2 / 공격실패 0
 	public int HA_heroAttack(Character real) {
 		int result = 0;
 		int dist = distance(this, real);
@@ -26,9 +26,10 @@ public class Hero extends Character {
 			
 			if(hp <= 0) {
 				hp = 0;
+				real.setHP(hp);
 				result = 2;
+				return result;
 			}
-			
 			real.setHP(hp);
 			result = 1;
 		}
@@ -47,8 +48,8 @@ public class Hero extends Character {
 			if(hp <= 0) {
 				hp = 0;
 				result = 2;
+				return result;
 			}
-			
 			real.setHP(hp);
 			result = 1;
 		}
@@ -76,7 +77,6 @@ public class Hero extends Character {
 		}
 		
 		return dir;
-		
 	}
 
 	public int getHA_heroDistance() {

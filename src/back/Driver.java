@@ -14,30 +14,43 @@ public class Driver {
 	
 	// 초기설정(키 이벤트 파라미터)
 	public void init(String name) {
-		hero = new Hero(name);
+		hero = new Hero(name, 1);
 		mon = new Monster("ZOMBIE", 1);
 		heroState();
-		monsterState();
+		monsterState(1);
 		showDisplay();
+		distance();
+	}
+	
+	// 레벨 추출(버튼 이벤트 값 전달용)
+	public int levelUp() {
+		int level = hero.getLEVEL();
+		System.out.println("Lv Check = " + level);
+		return level;
 	}
 	
 	// 레벨업별 셋팅(버튼 이벤트 파라미터)
 	public void stage(int step) {
 		switch(step) {
-			case 2:
-				hero.setLEVEL(step);
+			case 2 :
+				System.out.println("stage 2");
+				hero = new Hero(hero.getNAME(), step);
 				mon = new Monster("Guwool", step);
 				heroState();
-				monsterState();
+				monsterState(step);
 				showDisplay();
+				gs.front.battlehistoryDisplay.append("2단계 몬스터가 나타났습니다.\n");
 				break;
 				
-			case 3:
+			case 3 :
+				System.out.println("stage 3");
 				hero.setLEVEL(step);
+				hero = new Hero(hero.getNAME(), step);
 				mon = new Monster("Skeleton", step);
 				heroState();
-				monsterState();
+				monsterState(step);
 				showDisplay();
+				gs.front.battlehistoryDisplay.append("마지막 몬스터가 나타났습니다.\n");
 				break;
 		}
 	}
@@ -54,11 +67,11 @@ public class Driver {
 				int my = mon.getY();
 				
 				if(x == hx && y == hy) {
-					map += "H";
+					map += "☆";
 				}else if(x == mx && y == my) {
-					map += "M";
+					map += "◎";
 				}else {
-					map+= "*";
+					map+= "▩";
 				}
 			}
 			map += "<br>";
@@ -72,6 +85,7 @@ public class Driver {
 	// 히어로 능력치 구현
 	public void heroState() {
 		String heroState = "이름 ▷▷ " +hero.getNAME()  + "\n"
+												+ "Lv ▷▷ " + hero.getLEVEL() + "\n"
 												+ "HP ▷▷ " + hero.getHP() + "\n"
 												+ "원거리 공격력 ▷▷ " + hero.getHA_heroAttack() + "\n"
 												+ "근거리 공격력 ▷▷ " + hero.getHS_heroAttack() + "\n"
@@ -80,25 +94,66 @@ public class Driver {
 		
 		gs.front.heroDisplay.setText(heroState);
 	}
+	
 	// 몬스터 능력치 구현
-	public void monsterState() {
-		String monState = "이름 ▶▶ " + mon.getNAME() + "\n"
-												+ "HP ▶▶ " + mon.getHP() + "\n"
-												+ "공격력 ▶▶ " + mon.getAttack() + "\n"
-												+ "사정거리 ▶▶ " + mon.getMS_attackDistance();
+	public void monsterState(int level) {
 		
-		gs.front.monster1.setText(monState);
+		switch(level) {
+			case 1 :
+				String monState = "이름 ▶▶ " + mon.getNAME() + "\n"
+						+ "HP ▶▶ " + mon.getHP() + "\n"
+						+ "공격력 ▶▶ " + mon.getAttack() + "\n"
+						+ "사정거리 ▶▶ " + mon.getMS_attackDistance();
+				
+				gs.front.monster1.setText(monState);
+				break;
+				
+			case 2 :
+				String mon2State = "이름 ▶▶ " + mon.getNAME() + "\n"
+						+ "HP ▶▶ " + mon.getHP() + "\n"
+						+ "공격력 ▶▶ " + mon.getAttack() + "\n"
+						+ "사정거리 ▶▶ " + mon.getMS_attackDistance();
+				
+				gs.front.monster2.setText(mon2State);
+				break;
+				
+			case 3 :
+				String monKingState = "이름 ▶▶ " + mon.getNAME() + "\n"
+						+ "HP ▶▶ " + mon.getHP() + "\n"
+						+ "공격력 ▶▶ " + mon.getAttack() + "\n"
+						+ "사정거리 ▶▶ " + mon.getMS_attackDistance();
+				
+				gs.front.monsterKing.setText(monKingState);
+				break;
+		}
 	}
 	
-	// 히어로 이동 히스토리 출력
-	public void moveHistory(int dis) {
+	public void distance() {
+		int hx = hero.getX();
+		int hy = hero.getY();
+		int mx = mon.getX();
+		int my =mon.getY();
+		int dx = Math.abs(hx - mx);
+		int dy = Math.abs(hy - my);
+		String dis = Integer.toString(dx + dy);
+		
+		gs.front.distanceDisplay.setText("거리 :: " + dis);
+		
+	}
+	
+	// 히어로 이동 & 히스토리
+	public void heroMove(int dis) {
 		String move_msg = hero.move(dis);
-		mon.autoMove();
 		gs.front.battlehistoryDisplay.append(move_msg + "\n");
 	}
 	
-	//  히어로 공격 히스토리 출력
-	public void attackHistory(int key) {
+	// 몬스터 자동 이동
+	public void monMove() {
+		mon.autoMove();
+	}
+	
+	//  히어로 공격 & 히스토리
+	public void heroAttackHistory(int key) {
 		String attack_msg = "";
 		int result;
 		
@@ -106,10 +161,14 @@ public class Driver {
 			result = hero.HA_heroAttack(mon);
 			if(result == 1) {
 				attack_msg = hero.getHA_heroAttack() + " 만큼 공격 성공" + "\n";
-				monsterState();
+				monsterState(mon.getLEVEL());
+				
 			}else if(result == 2) {
 				attack_msg = mon.getNAME() + " 처치 성공" + "\n";
-				monsterState();
+				gs.front.inputDisplay.setEnabled(false);
+				gs.front.next.setEnabled(true);
+				monsterState(mon.getLEVEL());
+				
 			}else {
 				attack_msg = "공격 실패" + "\n";
 			}
@@ -118,10 +177,15 @@ public class Driver {
 			result = hero.HS_heroAttack(mon);
 			if(result == 1) {
 				attack_msg = hero.getHS_heroAttack() + " 만큼 공격 성공" + "\n";
-				monsterState();
+				monsterState(mon.getLEVEL());
+				
 			}else if(result == 2) {
 				attack_msg = mon.getNAME() + " 처치 성공" + "\n";
-				monsterState();
+				gs.front.inputDisplay.setEnabled(false);
+				gs.front.next.setEnabled(true);
+				gs.front.explainDisplay.setText(gs.front.ment.MONDIE);
+				monsterState(mon.getLEVEL());
+				
 			}else {
 				attack_msg = "공격 실패" + "\n";
 			}
@@ -131,12 +195,24 @@ public class Driver {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	// 몬스터 공격 & 히스토리
+	public void monAttackHistory() {
+		String attack_msg = "";
+		int result = mon.MS_attack(hero);
+		
+		if(result == 1) {
+			attack_msg = mon.getAttack() + " 만큼 피해" + "\n";
+			heroState();
+		}else if(result == 2) {
+			attack_msg = mon.getNAME() + "에게 사망" + "\n"
+								+ "◆◆◆ G.A.M.E.O.V.E.R ◆◆◆" + "\n";
+			heroState();
+			gs.front.inputDisplay.setEnabled(false);
+			gs.front.rePlay.setEnabled(true);
+			gs.front.explainDisplay.setText(gs.front.ment.HERODIE);
+		}
+		
+		gs.front.battlehistoryDisplay.append(attack_msg);
+	}
+
 }
